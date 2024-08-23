@@ -1,0 +1,62 @@
+﻿@model IEnumerable<Company>
+
+<div class="card shadow border-0 mt-4">
+    <div class="card-header bg-secondary bg-gradient ml-0 py-3">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="text-primary py-2">Company List</h2>
+            </div>
+        </div>
+    </div>
+    <div class="card-body p-4">
+        <div class="row pb-4">
+            <div class="col-6">
+                
+            </div>
+            <div class="col-6 text-end">
+                <a asp-controller="Company" asp-action="Create" class="btn btn-primary">
+                    <i class="bi bi-plus-circle"></i> Create New Company
+                </a>
+            </div>
+        </div>
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    
+                    <th scope="col">Name</th>
+                    <th scope="col">Street Address</th>
+                    <th scope="col">City</th>
+                    <th scope="col">State</th>
+                    <th scope="col">Postal Code</th>
+                    <th scope="col">PhoneNumber</th>
+                    <th>Handel</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var compa in Model)
+                {
+                    <tr>
+                        
+                        <td>@compa.Name</td>
+                        <td>@compa.StreetAddress</td>
+                        <td>@compa.City</td>
+                        <td>@compa.State</td>
+                        <td>@compa.PostalCode</td>
+                        <td>@compa.PhoneNumber</td>
+                        <td>
+                            <div class="w-75 btn-group" role="group">
+                                <a asp-controller="Company" asp-action="Edit" asp-route-id="@compa.Id" class="btn btn-primary mx-2">
+                                    <i class="bi bi-pencil-square"></i>Edit
+                                </a>
+                                <a asp-controller="Company" asp-action="Delete" asp-route-id="@compa.Id" class="btn btn-danger mx-2">
+                                    <i class="bi bi-trash-fill"></i>Delete
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
