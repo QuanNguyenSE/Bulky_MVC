@@ -11,84 +11,78 @@ namespace BulkyWeb.Areas.Admin.Controllers
     public class CompanyController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
-
         public CompanyController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
         public IActionResult Index()
         {
-            var Companies = _unitOfWork.Company.GetAll().ToList();
-            return View(Companies);
+            var Companys = _unitOfWork.Company.GetAll().ToList();
+
+            return View(Companys);
         }
-        public IActionResult Create()
+        public IActionResult Upsert(int? id)
         {
-            return View();
+            if (id == null || id == 0)
+            {
+                //create
+                return View(new Company());
+            }
+            else
+            {
+                //update
+                Company company = _unitOfWork.Company.Get(p => p.Id == id);
+                return View(company);
+            }
         }
         [HttpPost]
-        public IActionResult Create(Company company)
+        public IActionResult Upsert(Company company)
         {
             if (ModelState.IsValid)
             {
-                _unitOfWork.Company.Add(company);
+                if (company.Id == 0)
+                {
+                    _unitOfWork.Company.Add(company);
+                }
+                else
+                {
+                    _unitOfWork.Company.Update(company);
+                }
+
                 _unitOfWork.Save();
                 TempData["success"] = "Create Company Successfully";
                 return RedirectToAction("Index");
             }
-            return View();
-        }
-        public IActionResult Edit(int? id)
-        {
-            if (id == null || id == 0)
+            else
             {
-                return NotFound();
+                return View(company);
             }
+        }
 
-            Company company = _unitOfWork.Company.Get(c => c.Id == id);
-            if (company == null)
-            {
-                return NotFound();
-            }
-            return View(company);
-        }
-        [HttpPost]
-        public IActionResult Edit(Company company)
+
+
+        #region API CALLS
+        [HttpGet]
+        public IActionResult GetAll()
         {
-            if (ModelState.IsValid)
-            {
-                _unitOfWork.Company.Update(company);
-                _unitOfWork.Save();
-                TempData["success"] = "Update Company Successfully";
-                return RedirectToAction("Index");
-            }
-            return View();
+            var Companies = _unitOfWork.Company.GetAll().ToList();
+            return Json(new { data = Companies });
         }
+
+        [HttpDelete]
         public IActionResult Delete(int? id)
         {
-            if (id == null || id == 0)
+            var companyToBeDeleted = _unitOfWork.Company.Get(u => u.Id == id);
+
+            if (companyToBeDeleted == null)
             {
-                return NotFound();
+                return Json(new { success = false, message = "Error while deleting" });
             }
 
-            Company company = _unitOfWork.Company.Get(c => c.Id == id);
-            if (company == null)
-            {
-                return NotFound();
-            }
-            return View(company);
-        }
-        [HttpPost, ActionName("Delete")]
-        public IActionResult DeletePost(int? id)
-        {
-            Company company = _unitOfWork.Company.Get(c => c.Id == id);
-            if (company == null)
-            {
-                return NotFound();
-            }
-            _unitOfWork.Company.Remove(company);
+            _unitOfWork.Company.Remove(companyToBeDeleted);
             _unitOfWork.Save();
-            TempData["success"] = "Delete Company Successfully";
-            return RedirectToAction("Index");
+            return Json(new { success = true, message = "Delete successful" });
         }
+        #endregion
     }
 }
