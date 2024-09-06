@@ -28,13 +28,13 @@ builder.Services.ConfigureApplicationCookie(options =>
 builder.Services.AddAuthentication().AddFacebook(option =>
 {
     option.AppId = "530046869507100";
-
+    option.AppSecret = "17f570b104d5115634e4a819d9401d40";
 });
 
 builder.Services.AddAuthentication().AddGoogle(option =>
 {
     option.ClientId = "879997811122-4b7shfmvuvtua18foeq5eqbceh85q4vd.apps.googleusercontent.com";
-
+    option.ClientSecret = "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";
 });
 
 builder.Services.AddDistributedMemoryCache();
