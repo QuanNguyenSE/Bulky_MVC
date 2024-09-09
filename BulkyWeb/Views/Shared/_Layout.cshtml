@@ -51,6 +51,12 @@
                                         <a class="dropdown-item" asp-area="Admin" asp-controller="Product" asp-action="Index">Product</a>
                                     </li>
                                     <li class="nav-item">
+                                        <a class="dropdown-item" asp-area="Admin" asp-controller="Company" asp-action="Index">Company</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="dropdown-item" asp-area="Admin" asp-controller="User" asp-action="Index">User Management</a>
+                                    </li>
+                                    <li class="nav-item">
                                         <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Register">Create User</a>
                                     </li>
                                 </ul>
@@ -83,8 +89,10 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <script src="//cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js" asp-append-version="true"></script>
-    <script src="https://cdn.tiny.cloud/1/1d5411alia0c5xk8bs71xa52g301a81xwri2mfobcho60ce7/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="https://cdn.tiny.cloud/1/5yt4z78kzej5kgiu8cnn2n4eylwe4lgcz9qe2221wjriz680/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
